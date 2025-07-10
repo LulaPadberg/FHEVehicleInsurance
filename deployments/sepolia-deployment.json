@@ -1,0 +1,23 @@
+{
+  "network": "sepolia",
+  "chainId": "11155111",
+  "deployer": "0xB88Af7b693270cF38EC84f30e3564768149a37B3",
+  "deployedAt": "2025-10-23T12:23:37.910Z",
+  "contracts": {
+    "PauserSet": {
+      "address": "0xF1a0db0b5c83a341Ac44EAc5cABFbB7cbf37603D",
+      "constructorArgs": [
+        [
+          "0xB88Af7b693270cF38EC84f30e3564768149a37B3",
+          "0x0000000000000000000000000000000000000001"
+        ]
+      ]
+    },
+    "PrivateVehicleInsurance": {
+      "address": "0x07e59aEcC74578c859a89a4CD7cD40E760625890",
+      "constructorArgs": [
+        "0xF1a0db0b5c83a341Ac44EAc5cABFbB7cbf37603D"
+      ]
+    }
+  }
+}
