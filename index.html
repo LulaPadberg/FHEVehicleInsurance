@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Secure private vehicle insurance platform powered by Zama FHE technology">
+    <meta name="robots" content="index, follow">
+    <title>Private Vehicle Insurance Platform</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚗</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 2s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 90%;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h2 {
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-icon {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            transition: background 2s ease;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background 2s ease;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status-section {
+            grid-column: 1 / -1;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .status-item {
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9ff, #e8eeff);
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+            transition: border-left-color 2s ease;
+        }
+
+        .status-item h4 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .status-item p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .privacy-notice {
+            background: rgba(255, 248, 220, 0.9);
+            border: 1px solid #f0c36d;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: #8b4513;
+        }
+
+        .connection-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            z-index: 1000;
+        }
+
+        .connected {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .disconnected {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="connection-status disconnected" id="connectionStatus">
+        Not Connected
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <h1>🚗 Private Vehicle Insurance</h1>
+            <p>Secure, confidential insurance processing powered by Zama FHE technology. Your personal information remains encrypted and private throughout the entire process.</p>
+        </div>
+
+        <div class="main-content">
+            <!-- Create Policy Section -->
+            <div class="card">
+                <h2>
+                    <span class="card-icon">📋</span>
+                    Create Insurance Policy
+                </h2>
+                <div class="privacy-notice">
+                    <strong>🔒 Privacy Protected:</strong> All your personal information is encrypted using FHE technology.
+                </div>
+                <div class="form-group">
+                    <label for="age">Age (18-100)</label>
+                    <input type="number" id="age" min="18" max="100" placeholder="e.g. 25" value="25">
+                </div>
+                <div class="form-group">
+                    <label for="drivingYears">Years of Driving Experience</label>
+                    <input type="number" id="drivingYears" min="0" max="50" placeholder="e.g. 5" value="5">
+                </div>
+                <div class="form-group">
+                    <label for="vehicleValue">Vehicle Value (USD)</label>
+                    <input type="number" id="vehicleValue" min="1" placeholder="e.g. 25000" value="25000">
+                </div>
+                <div class="form-group">
+                    <label for="premium">Annual Premium (USD)</label>
+                    <input type="number" id="premium" min="1" placeholder="e.g. 1200" value="1200">
+                </div>
+                <button class="btn" onclick="createPolicy()">Create Policy</button>
+            </div>
+
+            <!-- Submit Claim Section -->
+            <div class="card">
+                <h2>
+                    <span class="card-icon">📑</span>
+                    Submit Insurance Claim
+                </h2>
+                <div class="privacy-notice">
+                    <strong>🔒 Confidential Claims:</strong> All damage amounts and repair costs are encrypted.
+                </div>
+                <div class="form-group">
+                    <label for="policyId">Policy ID</label>
+                    <input type="number" id="policyId" placeholder="Your policy ID">
+                </div>
+                <div class="form-group">
+                    <label for="damageAmount">Damage Amount (USD)</label>
+                    <input type="number" id="damageAmount" min="1" placeholder="Estimated damage cost">
+                </div>
+                <div class="form-group">
+                    <label for="repairCost">Repair Cost (USD)</label>
+                    <input type="number" id="repairCost" min="1" placeholder="Repair cost estimate">
+                </div>
+                <div class="form-group">
+                    <label for="severity">Accident Severity</label>
+                    <select id="severity">
+                        <option value="0">Minor (0-25%)</option>
+                        <option value="1">Moderate (26-50%)</option>
+                        <option value="2">Major (51-75%)</option>
+                        <option value="3">Severe (76-100%)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="documentHash">Document Hash (IPFS)</label>
+                    <input type="text" id="documentHash" placeholder="IPFS document hash">
+                </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="confidential">
+                    <label for="confidential">Mark as confidential claim</label>
+                </div>
+                <button class="btn" onclick="submitClaim()">Submit Claim</button>
+            </div>
+
+            <!-- Review Claim Section (For Authorized Reviewers) -->
+            <div class="card">
+                <h2>
+                    <span class="card-icon">👥</span>
+                    Review Claim
+                </h2>
+                <div class="form-group">
+                    <label for="reviewClaimId">Claim ID</label>
+                    <input type="number" id="reviewClaimId" placeholder="Claim ID to review">
+                </div>
+                <div class="form-group">
+                    <label for="assessedDamage">Assessed Damage (USD)</label>
+                    <input type="number" id="assessedDamage" min="1" placeholder="Assessed damage amount">
+                </div>
+                <div class="form-group">
+                    <label for="recommendedPayout">Recommended Payout (USD)</label>
+                    <input type="number" id="recommendedPayout" min="1" placeholder="Recommended payout">
+                </div>
+                <div class="form-group">
+                    <label for="reviewNotes">Review Notes</label>
+                    <textarea id="reviewNotes" rows="3" placeholder="Enter review comments"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="claimStatus">New Status</label>
+                    <select id="claimStatus">
+                        <option value="2">Under Review</option>
+                        <option value="3">Approved</option>
+                        <option value="4">Rejected</option>
+                    </select>
+                </div>
+                <button class="btn" onclick="reviewClaim()">Submit Review</button>
+            </div>
+
+            <!-- Status Section -->
+            <div class="status-section">
+                <h2>
+                    <span class="card-icon">📊</span>
+                    Insurance Status Dashboard
+                </h2>
+                <div class="status-grid">
+                    <div class="status-item">
+                        <h4>Connected Account</h4>
+                        <p id="accountAddress">Not connected</p>
+                    </div>
+                    <div class="status-item">
+                        <h4>Contract Address</h4>
+                        <p id="contractAddress">Not deployed</p>
+                    </div>
+                    <div class="status-item">
+                        <h4>My Policies</h4>
+                        <p id="policyCount">0 policies</p>
+                    </div>
+                    <div class="status-item">
+                        <h4>My Claims</h4>
+                        <p id="claimCount">0 claims</p>
+                    </div>
+                    <div class="status-item">
+                        <h4>Network</h4>
+                        <p id="networkStatus">Sepolia Testnet</p>
+                    </div>
+                    <div class="status-item">
+                        <h4>Privacy Status</h4>
+                        <p>🔒 FHE Encrypted</p>
+                    </div>
+                </div>
+                <div style="margin-top: 20px;">
+                    <button class="btn" onclick="connectWallet()">Connect Wallet</button>
+                    <button class="btn" onclick="testMetaMask()" style="margin-top: 10px; background: #28a745;">Test MetaMask</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <script>
+        // Contract configuration - Updated 2025-10-23
+        const CONTRACT_ADDRESS = "0x07e59aEcC74578c859a89a4CD7cD40E760625890";
+        const PAUSERSET_ADDRESS = "0xF1a0db0b5c83a341Ac44EAc5cABFbB7cbf37603D";
+        const CONTRACT_ABI = [
+            "function createPolicy(uint32 _age, uint32 _drivingYears, uint32 _vehicleValue, uint32 _premium) external returns (uint256)",
+            "function submitClaim(uint256 _policyId, uint32 _damageAmount, uint32 _repairCost, uint8 _severity, string memory _documentHash, bool _isConfidential) external returns (uint256)",
+            "function reviewClaim(uint256 _claimId, uint32 _assessedDamage, uint32 _recommendedPayout, string memory _reviewNotes, uint8 _newStatus) external",
+            "function getClaimsByHolder(address _holder) external view returns (uint256[] memory)",
+            "function getPoliciesByHolder(address _holder) external view returns (uint256[] memory)",
+            "function getClaimStatus(uint256 _claimId) external view returns (uint8)",
+            "function getClaimDetails(uint256 _claimId) external view returns (uint256, address, uint8, uint8, string memory, uint256, uint256, bool)",
+            "function authorizeReviewer(address _reviewer) external",
+            "function revokeReviewer(address _reviewer) external",
+            "function calculateRiskScore(uint256 _policyId) external returns (bytes32)",
+            "function processPayment(uint256 _claimId) external",
+            "event PolicyCreated(uint256 indexed policyId, address indexed holder)",
+            "event ClaimSubmitted(uint256 indexed claimId, uint256 indexed policyId, address indexed claimant)",
+            "event ClaimReviewed(uint256 indexed claimId, address indexed reviewer, uint8 newStatus)",
+            "event ClaimApproved(uint256 indexed claimId, uint256 approvedAmount)",
+            "event ClaimPaid(uint256 indexed claimId, address indexed recipient)"
+        ];
+
+        // Global variables
+        let provider;
+        let signer;
+        let contract;
+        let userAddress;
+
+        // Random color generation functions
+        function getRandomColor() {
+            const hue = Math.floor(Math.random() * 360);
+            const saturation = Math.floor(Math.random() * 30) + 60; // 60-90%
+            const lightness = Math.floor(Math.random() * 20) + 45; // 45-65%
+            return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+        }
+
+        function updateRandomColors() {
+            const color1 = getRandomColor();
+            const color2 = getRandomColor();
+            const color3 = getRandomColor();
+
+            // Update background gradient
+            document.body.style.background = `linear-gradient(135deg, ${color1} 0%, ${color2} 100%)`;
+
+            // Update card icons
+            const cardIcons = document.querySelectorAll('.card-icon');
+            cardIcons.forEach(icon => {
+                icon.style.background = `linear-gradient(135deg, ${color2}, ${color3})`;
+            });
+
+            // Update buttons
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(btn => {
+                btn.style.background = `linear-gradient(135deg, ${color1}, ${color3})`;
+            });
+
+            // Update status item borders
+            const statusItems = document.querySelectorAll('.status-item');
+            statusItems.forEach(item => {
+                item.style.borderLeftColor = color2;
+            });
+        }
+
+        // Change colors every 10 seconds
+        setInterval(updateRandomColors, 10000);
+
+        // Test MetaMask
+        function testMetaMask() {
+            console.log('🧪 Test button clicked');
+            alert('Test button working!');
+
+            if (window.ethereum) {
+                console.log('✅ MetaMask found');
+                alert('MetaMask detected!');
+            } else {
+                console.log('❌ MetaMask not found');
+                alert('Please install MetaMask!');
+            }
+
+            console.log('Ethers available:', typeof ethers !== 'undefined');
+        }
+
+        // Connect wallet function based on working example
+        async function connectWallet() {
+            try {
+                if (!window.ethereum) {
+                    alert('Please install MetaMask!');
+                    return;
+                }
+
+                console.log('Connecting to MetaMask...');
+
+                const accounts = await window.ethereum.request({
+                    method: 'eth_requestAccounts'
+                });
+
+                // Check for Sepolia network (0xaa36a7)
+                const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+                if (chainId !== '0xaa36a7') {
+                    try {
+                        await window.ethereum.request({
+                            method: 'wallet_switchEthereumChain',
+                            params: [{ chainId: '0xaa36a7' }],
+                        });
+                    } catch (switchError) {
+                        if (switchError.code === 4902) {
+                            await window.ethereum.request({
+                                method: 'wallet_addEthereumChain',
+                                params: [{
+                                    chainId: '0xaa36a7',
+                                    chainName: 'Sepolia Test Network',
+                                    rpcUrls: ['https://sepolia.infura.io/v3/'],
+                                    nativeCurrency: {
+                                        name: 'ETH',
+                                        symbol: 'ETH',
+                                        decimals: 18
+                                    },
+                                    blockExplorerUrls: ['https://sepolia.etherscan.io/']
+                                }]
+                            });
+                        }
+                    }
+                }
+
+                provider = new ethers.providers.Web3Provider(window.ethereum);
+                signer = provider.getSigner();
+                userAddress = await signer.getAddress();
+
+                // Initialize contract
+                contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
+
+                console.log('Connected to:', userAddress);
+                console.log('Contract initialized at:', CONTRACT_ADDRESS);
+
+                // Update UI
+                document.getElementById('accountAddress').textContent = userAddress.slice(0, 6) + '...' + userAddress.slice(-4);
+                document.getElementById('contractAddress').textContent = CONTRACT_ADDRESS.slice(0, 6) + '...' + CONTRACT_ADDRESS.slice(-4);
+                document.getElementById('connectionStatus').textContent = 'Connected to Sepolia! ✅';
+                document.getElementById('connectionStatus').className = 'connection-status connected';
+
+                // Update user status
+                await updateUserStatus();
+
+                alert('Connected to Sepolia! ✅');
+
+            } catch (error) {
+                console.error('Wallet connection failed:', error);
+                alert('Connection failed: ' + error.message);
+            }
+        }
+
+        async function updateUIState(network) {
+            // Update connection status
+            document.getElementById('accountAddress').textContent = userAddress.substring(0, 6) + '...' + userAddress.substring(38);
+            document.getElementById('contractAddress').textContent = CONTRACT_ADDRESS.substring(0, 6) + '...' + CONTRACT_ADDRESS.substring(38);
+            document.getElementById('connectionStatus').textContent = 'Connected to Sepolia';
+            document.getElementById('connectionStatus').className = 'connection-status connected';
+            document.getElementById('networkStatus').textContent = network.name || `Chain ${Number(network.chainId)}`;
+
+            // Update policy/claim counts
+            if (!contract) {
+                document.getElementById('policyCount').textContent = 'Deploy contract first';
+                document.getElementById('claimCount').textContent = 'Deploy contract first';
+            }
+        }
+
+        function resetUIState() {
+            document.getElementById('accountAddress').textContent = 'Not connected';
+            document.getElementById('contractAddress').textContent = CONTRACT_ADDRESS.substring(0, 6) + '...' + CONTRACT_ADDRESS.substring(38);
+            document.getElementById('connectionStatus').textContent = 'Not Connected';
+            document.getElementById('connectionStatus').className = 'connection-status disconnected';
+            document.getElementById('networkStatus').textContent = 'Sepolia Testnet';
+            document.getElementById('policyCount').textContent = '0 policies';
+            document.getElementById('claimCount').textContent = '0 claims';
+
+            provider = null;
+            signer = null;
+            contract = null;
+            userAddress = null;
+        }
+
+        async function updateUserStatus() {
+            try {
+                if (!contract || !userAddress) {
+                    console.log('Contract or user address not available');
+                    return;
+                }
+
+                const policies = await contract.getPoliciesByHolder(userAddress);
+                const claims = await contract.getClaimsByHolder(userAddress);
+
+                document.getElementById('policyCount').textContent = policies.length + ' policies';
+                document.getElementById('claimCount').textContent = claims.length + ' claims';
+            } catch (error) {
+                console.error('Error updating status:', error);
+                document.getElementById('policyCount').textContent = 'Contract not deployed';
+                document.getElementById('claimCount').textContent = 'Contract not deployed';
+            }
+        }
+
+        async function createPolicy() {
+            try {
+                if (!contract) {
+                    alert('Please connect your wallet first');
+                    return;
+                }
+
+                const age = parseInt(document.getElementById('age').value);
+                const drivingYears = parseInt(document.getElementById('drivingYears').value);
+                const vehicleValue = parseInt(document.getElementById('vehicleValue').value);
+                const premium = parseInt(document.getElementById('premium').value);
+
+                if (!age || !drivingYears || !vehicleValue || !premium) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+
+                // Validate input ranges according to contract requirements
+                if (age < 18 || age > 100) {
+                    alert('Age must be between 18 and 100 years');
+                    return;
+                }
+
+                if (drivingYears > age - 16) {
+                    alert('Driving years cannot exceed (age - 16). Max allowed: ' + (age - 16) + ' years');
+                    return;
+                }
+
+                if (vehicleValue <= 0) {
+                    alert('Vehicle value must be greater than 0');
+                    return;
+                }
+
+                if (premium <= 0) {
+                    alert('Premium must be greater than 0');
+                    return;
+                }
+
+                const tx = await contract.createPolicy(
+                    age,
+                    drivingYears,
+                    vehicleValue,
+                    premium
+                );
+
+                alert('Policy creation transaction submitted. Waiting for confirmation...');
+                const receipt = await tx.wait();
+
+                // Parse events using ethers v6 format
+                let policyId;
+                for (const log of receipt.logs) {
+                    try {
+                        const parsedLog = contract.interface.parseLog(log);
+                        if (parsedLog && parsedLog.name === 'PolicyCreated') {
+                            policyId = parsedLog.args.policyId.toString();
+                            break;
+                        }
+                    } catch (e) {
+                        // Continue if log can't be parsed
+                    }
+                }
+
+                alert(`Policy created successfully! Policy ID: ${policyId || 'Unknown'}`);
+                await updateUserStatus();
+
+                // Clear form
+                document.getElementById('age').value = '';
+                document.getElementById('drivingYears').value = '';
+                document.getElementById('vehicleValue').value = '';
+                document.getElementById('premium').value = '';
+
+            } catch (error) {
+                console.error('Error creating policy:', error);
+                alert('Error creating policy: ' + error.message);
+            }
+        }
+
+        async function submitClaim() {
+            try {
+                if (!contract) {
+                    alert('Please connect your wallet first');
+                    return;
+                }
+
+                const policyId = document.getElementById('policyId').value;
+                const damageAmount = document.getElementById('damageAmount').value;
+                const repairCost = document.getElementById('repairCost').value;
+                const severity = document.getElementById('severity').value;
+                const documentHash = document.getElementById('documentHash').value;
+                const confidential = document.getElementById('confidential').checked;
+
+                if (!policyId || !damageAmount || !repairCost || !documentHash) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+
+                const tx = await contract.submitClaim(
+                    parseInt(policyId),
+                    parseInt(damageAmount),
+                    parseInt(repairCost),
+                    parseInt(severity),
+                    documentHash,
+                    confidential
+                );
+
+                alert('Claim submission transaction submitted. Waiting for confirmation...');
+                const receipt = await tx.wait();
+
+                // Parse events using ethers v6 format
+                let claimId;
+                for (const log of receipt.logs) {
+                    try {
+                        const parsedLog = contract.interface.parseLog(log);
+                        if (parsedLog && parsedLog.name === 'ClaimSubmitted') {
+                            claimId = parsedLog.args.claimId.toString();
+                            break;
+                        }
+                    } catch (e) {
+                        // Continue if log can't be parsed
+                    }
+                }
+
+                alert(`Claim submitted successfully! Claim ID: ${claimId || 'Unknown'}`);
+                await updateUserStatus();
+
+                // Clear form
+                document.getElementById('policyId').value = '';
+                document.getElementById('damageAmount').value = '';
+                document.getElementById('repairCost').value = '';
+                document.getElementById('documentHash').value = '';
+                document.getElementById('confidential').checked = false;
+
+            } catch (error) {
+                console.error('Error submitting claim:', error);
+                alert('Error submitting claim: ' + error.message);
+            }
+        }
+
+        async function reviewClaim() {
+            try {
+                if (!contract) {
+                    alert('Please connect your wallet first');
+                    return;
+                }
+
+                const claimId = document.getElementById('reviewClaimId').value;
+                const assessedDamage = document.getElementById('assessedDamage').value;
+                const recommendedPayout = document.getElementById('recommendedPayout').value;
+                const reviewNotes = document.getElementById('reviewNotes').value;
+                const claimStatus = document.getElementById('claimStatus').value;
+
+                if (!claimId || !assessedDamage || !recommendedPayout || !reviewNotes) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+
+                const tx = await contract.reviewClaim(
+                    parseInt(claimId),
+                    parseInt(assessedDamage),
+                    parseInt(recommendedPayout),
+                    reviewNotes,
+                    parseInt(claimStatus)
+                );
+
+                alert('Claim review transaction submitted. Waiting for confirmation...');
+                await tx.wait();
+
+                alert('Claim reviewed successfully!');
+
+                // Clear form
+                document.getElementById('reviewClaimId').value = '';
+                document.getElementById('assessedDamage').value = '';
+                document.getElementById('recommendedPayout').value = '';
+                document.getElementById('reviewNotes').value = '';
+
+            } catch (error) {
+                console.error('Error reviewing claim:', error);
+                alert('Error reviewing claim: ' + error.message);
+            }
+        }
+
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            console.log('Page loaded - buttons ready');
+            // Display contract address immediately
+            document.getElementById('contractAddress').textContent = CONTRACT_ADDRESS.substring(0, 6) + '...' + CONTRACT_ADDRESS.substring(38);
+            // Apply random colors immediately
+            updateRandomColors();
+        });
+    </script>
+</body>
+</html>

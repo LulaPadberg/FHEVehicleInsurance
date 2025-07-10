@@ -1,0 +1,38 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "resolveJsonModule": true,
+    "typeRoots": [
+      "./node_modules/@types",
+      "./typechain-types"
+    ]
+  },
+  "include": [
+    "./test/**/*.ts",
+    "./scripts/**/*.ts",
+    "./deploy/**/*.ts",
+    "./typechain-types/**/*.ts",
+    "./hardhat.config.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "artifacts",
+    "cache",
+    "dist",
+    "src"
+  ],
+  "files": [
+    "./hardhat.config.ts"
+  ]
+}
