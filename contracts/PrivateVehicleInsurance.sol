@@ -4,19 +4,11 @@ pragma solidity ^0.8.24;
 import { FHE, euint32, euint64, ebool } from "@fhevm/solidity/lib/FHE.sol";
 import { SepoliaConfig } from "@fhevm/solidity/config/ZamaConfig.sol";
 
-interface IPauserSet {
-    function isAuthorizedPauser(address _address) external view returns (bool);
-}
-
 contract PrivateVehicleInsurance is SepoliaConfig {
 
     address public insuranceCompany;
     uint256 public nextPolicyId;
     uint256 public nextClaimId;
-
-    // PauserSet immutable contract support
-    address public immutable pauserSetContract;
-    bool public isPaused;
 
     enum ClaimStatus {
         Submitted,
@@ -81,8 +73,6 @@ contract PrivateVehicleInsurance is SepoliaConfig {
     event ClaimPaid(uint256 indexed claimId, address indexed recipient);
     event ReviewerAuthorized(address indexed reviewer);
     event ReviewerRevoked(address indexed reviewer);
-    event ContractPaused(address indexed pauser);
-    event ContractUnpaused(address indexed pauser);
 
     modifier onlyInsuranceCompany() {
         require(msg.sender == insuranceCompany, "Not authorized insurance company");
@@ -105,24 +95,8 @@ contract PrivateVehicleInsurance is SepoliaConfig {
         _;
     }
 
-    modifier whenNotPaused() {
-        require(!isPaused, "Contract is paused");
-        _;
-    }
-
-    modifier onlyPauserSet() {
-        require(
-            IPauserSet(pauserSetContract).isAuthorizedPauser(msg.sender),
-            "Not authorized pauser"
-        );
-        _;
-    }
-
-    constructor(address _pauserSetContract) {
-        require(_pauserSetContract != address(0), "Invalid PauserSet address");
+    constructor() {
         insuranceCompany = msg.sender;
-        pauserSetContract = _pauserSetContract;
-        isPaused = false;
         nextPolicyId = 1;
         nextClaimId = 1;
     }
@@ -132,7 +106,7 @@ contract PrivateVehicleInsurance is SepoliaConfig {
         uint32 _drivingYears,
         uint32 _vehicleValue,
         uint32 _premium
-    ) external whenNotPaused returns (uint256) {
+    ) external returns (uint256) {
         require(_age >= 18 && _age <= 100, "Invalid age");
         require(_drivingYears <= _age - 16, "Invalid driving years");
         require(_vehicleValue > 0, "Vehicle value must be positive");
@@ -178,7 +152,7 @@ contract PrivateVehicleInsurance is SepoliaConfig {
         AccidentSeverity _severity,
         string memory _documentHash,
         bool _isConfidential
-    ) external whenNotPaused onlyPolicyHolder(_policyId) returns (uint256) {
+    ) external onlyPolicyHolder(_policyId) returns (uint256) {
         require(_damageAmount > 0, "Damage amount must be positive");
         require(_repairCost > 0, "Repair cost must be positive");
         require(bytes(_documentHash).length > 0, "Document hash required");
@@ -227,7 +201,7 @@ contract PrivateVehicleInsurance is SepoliaConfig {
         uint32 _recommendedPayout,
         string memory _reviewNotes,
         ClaimStatus _newStatus
-    ) external whenNotPaused onlyAuthorizedReviewer claimExists(_claimId) {
+    ) external onlyAuthorizedReviewer claimExists(_claimId) {
         require(claims[_claimId].status == ClaimStatus.Submitted ||
                 claims[_claimId].status == ClaimStatus.UnderReview, "Invalid claim status");
         require(_newStatus != ClaimStatus.Submitted, "Cannot revert to submitted");
@@ -265,7 +239,7 @@ contract PrivateVehicleInsurance is SepoliaConfig {
         emit ClaimReviewed(_claimId, msg.sender, _newStatus);
     }
 
-    function processPayment(uint256 _claimId) external whenNotPaused onlyInsuranceCompany claimExists(_claimId) {
+    function processPayment(uint256 _claimId) external onlyInsuranceCompany claimExists(_claimId) {
         require(claims[_claimId].status == ClaimStatus.Approved, "Claim not approved");
 
         claims[_claimId].status = ClaimStatus.Paid;
@@ -347,22 +321,7 @@ contract PrivateVehicleInsurance is SepoliaConfig {
         );
     }
 
-    // Pause/Unpause functions - can only be called by authorized pausers in PauserSet contract
-    function pause() external onlyPauserSet {
-        require(!isPaused, "Already paused");
-        isPaused = true;
-        emit ContractPaused(msg.sender);
-    }
-
-    function unpause() external onlyPauserSet {
-        require(isPaused, "Not paused");
-        isPaused = false;
-        emit ContractUnpaused(msg.sender);
-    }
-
-    // View function to check if contract can be paused (replaces deprecated checkPublicDecryptAllowed pattern)
-    function isPauseAllowed() external view returns (bool) {
-        return !isPaused;
+    function emergencyPause() external onlyInsuranceCompany {
     }
 
     function updateInsuranceCompany(address _newCompany) external onlyInsuranceCompany {

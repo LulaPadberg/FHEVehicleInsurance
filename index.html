@@ -396,9 +396,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
     <script>
-        // Contract configuration - Updated 2025-10-23
-        const CONTRACT_ADDRESS = "0x07e59aEcC74578c859a89a4CD7cD40E760625890";
-        const PAUSERSET_ADDRESS = "0xF1a0db0b5c83a341Ac44EAc5cABFbB7cbf37603D";
+        // Contract configuration
+        const CONTRACT_ADDRESS = "0x2A86c562acc0a861A96E4114d7323987e313795F";
         const CONTRACT_ABI = [
             "function createPolicy(uint32 _age, uint32 _drivingYears, uint32 _vehicleValue, uint32 _premium) external returns (uint256)",
             "function submitClaim(uint256 _policyId, uint32 _damageAmount, uint32 _repairCost, uint8 _severity, string memory _documentHash, bool _isConfidential) external returns (uint256)",
