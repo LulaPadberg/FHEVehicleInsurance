@@ -9,12 +9,14 @@ This platform represents a breakthrough in insurance technology, combining block
 ## 🔐 Core Concepts
 
 ### Fully Homomorphic Encryption (FHE) for Insurance
+
 - **Complete Privacy**: All personal information, vehicle values, and claim amounts are encrypted and never exposed
 - **Computational Privacy**: Mathematical operations on encrypted data without decryption
 - **Zero Knowledge Processing**: Insurance calculations performed without revealing underlying data
 - **End-to-End Confidentiality**: From policy creation to claim settlement, data remains private
 
 ### Confidential Vehicle Insurance Processing
+
 - **Private Policy Management**: Age, driving experience, and vehicle details encrypted on-chain
 - **Secure Claims Processing**: Damage assessments and repair costs processed confidentially
 - **Encrypted Risk Assessment**: AI-powered risk scoring without exposing personal information
@@ -23,18 +25,21 @@ This platform represents a breakthrough in insurance technology, combining block
 ## 🚗 Key Features
 
 ### For Policyholders
+
 - **Private Policy Creation**: Submit encrypted personal and vehicle information
 - **Confidential Claims**: File claims with encrypted damage and repair cost data
 - **Secure Documentation**: IPFS-based document storage with privacy protection
 - **Real-time Status**: Track policy and claim status while maintaining privacy
 
 ### For Insurance Companies
+
 - **Encrypted Risk Assessment**: Calculate risk scores on encrypted policyholder data
 - **Private Claims Review**: Assess claims without accessing raw personal information
 - **Secure Payout Processing**: Process settlements while maintaining data confidentiality
 - **Compliance-Ready**: Meet privacy regulations while maintaining operational efficiency
 
 ### For Reviewers
+
 - **Authorized Access**: Designated reviewers can process claims with encrypted data
 - **Confidential Assessment**: Review and approve claims without compromising privacy
 - **Audit Trail**: Complete transaction history with privacy preservation
@@ -49,18 +54,21 @@ This platform represents a breakthrough in insurance technology, combining block
 ## 💡 Use Cases
 
 ### Individual Users
+
 - Protect personal financial information during insurance applications
 - Maintain privacy of driving history and vehicle details
 - Secure claim processing for accidents and damages
 - Confidential premium calculations
 
 ### Insurance Companies
+
 - Reduce data breach risks through encrypted processing
 - Comply with privacy regulations while maintaining efficiency
 - Enable cross-border insurance with privacy guarantees
 - Implement transparent yet private claim settlements
 
 ### Enterprise Fleet Management
+
 - Bulk policy management with privacy protection
 - Confidential fleet risk assessment
 - Private claims processing for commercial vehicles
@@ -71,6 +79,7 @@ This platform represents a breakthrough in insurance technology, combining block
 **Platform URL**: [https://private-vehicle-insurance.vercel.app/](https://private-vehicle-insurance.vercel.app/)
 
 Experience the platform with:
+
 - Interactive policy creation
 - Real-time claim submission
 - Encrypted data processing
@@ -81,18 +90,21 @@ Experience the platform with:
 ### Deployed Contracts (Sepolia Testnet)
 
 **PrivateVehicleInsurance Contract**:
+
 - Address: `0x07e59aEcC74578c859a89a4CD7cD40E760625890`
 - Network: Sepolia Testnet (Chain ID: 11155111)
 - Deployed: 2025-10-23
 - Etherscan: [View Contract](https://sepolia.etherscan.io/address/0x07e59aEcC74578c859a89a4CD7cD40E760625890)
 
 **PauserSet Contract**:
+
 - Address: `0xF1a0db0b5c83a341Ac44EAc5cABFbB7cbf37603D`
 - Network: Sepolia Testnet
 - Deployed: 2025-10-23
 - Etherscan: [View Contract](https://sepolia.etherscan.io/address/0xF1a0db0b5c83a341Ac44EAc5cABFbB7cbf37603D)
 
 ### Technology Stack
+
 - **Smart Contracts**: Solidity 0.8.24
 - **FHE Library**: Zama FHEVM v0.5.0
 - **Development Framework**: Hardhat with TypeScript
@@ -104,14 +116,18 @@ Experience the platform with:
 ## 📹 Demo Materials
 
 ### PrivateVehicleInsurance.mp4
+
 Complete walkthrough showcasing:
+
 - Policy creation with encrypted data
 - Confidential claim submission process
 - Private claim review and approval
 - Real-time blockchain interactions
 
 ### PrivateVehicleInsurance.png
+
 Live transaction screenshots demonstrating:
+
 - Encrypted policy creation transactions
 - Private claim submission with FHE data
 - Confidential review and approval processes
@@ -120,18 +136,21 @@ Live transaction screenshots demonstrating:
 ## 🔧 Technical Architecture
 
 ### Smart Contract Layer
+
 - FHE-enabled Solidity contracts
 - Encrypted state management
 - Private computation functions
 - Access control mechanisms
 
 ### Frontend Interface
+
 - MetaMask wallet integration
 - Real-time encryption/decryption
 - Responsive design for all devices
 - Dynamic color theming
 
 ### Privacy Infrastructure
+
 - Zama FHE technology integration
 - Encrypted data validation
 - Secure key management
@@ -223,6 +242,7 @@ PAUSER_ADDRESS_1=0x...
 **Live Platform**: [https://private-vehicle-insurance.vercel.app/](https://private-vehicle-insurance.vercel.app/)
 
 **Smart Contracts (Sepolia)**:
+
 - PrivateVehicleInsurance: [0x07e59aEcC74578c859a89a4CD7cD40E760625890](https://sepolia.etherscan.io/address/0x07e59aEcC74578c859a89a4CD7cD40E760625890)
 - PauserSet: [0xF1a0db0b5c83a341Ac44EAc5cABFbB7cbf37603D](https://sepolia.etherscan.io/address/0xF1a0db0b5c83a341Ac44EAc5cABFbB7cbf37603D)
 
@@ -236,4 +256,4 @@ This project is licensed under the MIT License - promoting open innovation in pr
 
 ---
 
-*Built with ❤️ for a more private and secure insurance future*
+_Built with ❤️ for a more private and secure insurance future_
