@@ -1,4 +1,4 @@
-# Private Vehicle Insurance Platform
+# FHE Vehicle Insurance Platform
 
 A revolutionary decentralized insurance platform built with Fully Homomorphic Encryption (FHE) technology, ensuring complete privacy and confidentiality in vehicle insurance processing and claims management.
 
@@ -8,15 +8,17 @@ This platform represents a breakthrough in insurance technology, combining block
 
 ## 🔐 Core Concepts
 
-### Fully Homomorphic Encryption (FHE) for Insurance
+### FHE Contract - Privacy Vehicle Insurance Claims
 
-- **Complete Privacy**: All personal information, vehicle values, and claim amounts are encrypted and never exposed
+**Confidential Automobile Insurance Processing**: The platform utilizes Fully Homomorphic Encryption to enable privacy-preserving vehicle insurance claims processing, ensuring that all sensitive claim data remains encrypted on-chain while allowing authorized parties to perform necessary computations and validations.
+
+#### Complete Privacy Protection
+- **Personal Data Encryption**: All personal information, vehicle values, and claim amounts are encrypted and never exposed
 - **Computational Privacy**: Mathematical operations on encrypted data without decryption
 - **Zero Knowledge Processing**: Insurance calculations performed without revealing underlying data
 - **End-to-End Confidentiality**: From policy creation to claim settlement, data remains private
 
-### Confidential Vehicle Insurance Processing
-
+#### Confidential Insurance Workflow
 - **Private Policy Management**: Age, driving experience, and vehicle details encrypted on-chain
 - **Secure Claims Processing**: Damage assessments and repair costs processed confidentially
 - **Encrypted Risk Assessment**: AI-powered risk scoring without exposing personal information
@@ -76,7 +78,7 @@ This platform represents a breakthrough in insurance technology, combining block
 
 ## 🌐 Live Demo
 
-**Platform URL**: [https://private-vehicle-insurance.vercel.app/](https://private-vehicle-insurance.vercel.app/)
+**Platform URL**: [https://fhe-vehicle-insurance.vercel.app/](https://fhe-vehicle-insurance.vercel.app/)
 
 Experience the platform with:
 
@@ -91,16 +93,14 @@ Experience the platform with:
 
 **PrivateVehicleInsurance Contract**:
 
-- Address: `0x07e59aEcC74578c859a89a4CD7cD40E760625890`
+- Address: `0x2A86c562acc0a861A96E4114d7323987e313795F`
 - Network: Sepolia Testnet (Chain ID: 11155111)
-- Deployed: 2025-10-23
-- Etherscan: [View Contract](https://sepolia.etherscan.io/address/0x07e59aEcC74578c859a89a4CD7cD40E760625890)
+- Etherscan: [View Contract](https://sepolia.etherscan.io/address/0x2A86c562acc0a861A96E4114d7323987e313795F)
 
 **PauserSet Contract**:
 
 - Address: `0xF1a0db0b5c83a341Ac44EAc5cABFbB7cbf37603D`
 - Network: Sepolia Testnet
-- Deployed: 2025-10-23
 - Etherscan: [View Contract](https://sepolia.etherscan.io/address/0xF1a0db0b5c83a341Ac44EAc5cABFbB7cbf37603D)
 
 ### Technology Stack
@@ -113,18 +113,18 @@ Experience the platform with:
 - **Storage**: IPFS Document Storage
 - **Verification**: Etherscan API Integration
 
-## 📹 Demo Materials
+## 📹 Demo Video
 
-### PrivateVehicleInsurance.mp4
+### demo.mp4
 
-Complete walkthrough showcasing:
+Complete platform walkthrough showcasing:
 
 - Policy creation with encrypted data
 - Confidential claim submission process
 - Private claim review and approval
 - Real-time blockchain interactions
 
-### PrivateVehicleInsurance.png
+### Platform Screenshots
 
 Live transaction screenshots demonstrating:
 
@@ -237,13 +237,13 @@ PAUSER_ADDRESS_1=0x...
 
 ## 🔗 Resources
 
-**GitHub Repository**: [https://github.com/LulaPadberg/PrivateVehicleInsurance](https://github.com/LulaPadberg/PrivateVehicleInsurance)
+**GitHub Repository**: [https://github.com/LulaPadberg/FHEVehicleInsurance](https://github.com/LulaPadberg/FHEVehicleInsurance)
 
-**Live Platform**: [https://private-vehicle-insurance.vercel.app/](https://private-vehicle-insurance.vercel.app/)
+**Live Platform**: [https://fhe-vehicle-insurance.vercel.app/](https://fhe-vehicle-insurance.vercel.app/)
 
 **Smart Contracts (Sepolia)**:
 
-- PrivateVehicleInsurance: [0x07e59aEcC74578c859a89a4CD7cD40E760625890](https://sepolia.etherscan.io/address/0x07e59aEcC74578c859a89a4CD7cD40E760625890)
+- PrivateVehicleInsurance: [0x2A86c562acc0a861A96E4114d7323987e313795F](https://sepolia.etherscan.io/address/0x2A86c562acc0a861A96E4114d7323987e313795F)
 - PauserSet: [0xF1a0db0b5c83a341Ac44EAc5cABFbB7cbf37603D](https://sepolia.etherscan.io/address/0xF1a0db0b5c83a341Ac44EAc5cABFbB7cbf37603D)
 
 ## 🏆 Awards and Recognition
