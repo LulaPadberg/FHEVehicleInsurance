@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --gradient-from: #667eea;
+  --gradient-to: #764ba2;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, var(--gradient-from) 0%, var(--gradient-to) 100%);
+  min-height: 100vh;
+  transition: background 2s ease;
+}
+
+@layer components {
+  .card {
+    @apply bg-white/95 rounded-3xl p-8 shadow-2xl backdrop-blur-sm;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    @apply -translate-y-1 shadow-3xl;
+  }
+
+  .btn-primary {
+    @apply w-full px-6 py-4 bg-gradient-to-r from-[#667eea] to-[#764ba2] text-white rounded-xl font-medium;
+    @apply hover:-translate-y-0.5 hover:shadow-lg transition-all disabled:opacity-60 disabled:cursor-not-allowed;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-primary transition-colors;
+  }
+
+  .status-badge {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-full font-medium;
+  }
+}
