@@ -10,6 +10,14 @@ This platform represents a breakthrough in insurance technology, combining block
 
 **Platform URL**: [https://fhe-vehicle-insurance.vercel.app/](https://fhe-vehicle-insurance.vercel.app/)
 
+Experience the platform with:
+
+- Interactive policy creation
+- Real-time claim submission
+- Encrypted data processing
+- Live blockchain integration
+- Modern React interface (or legacy HTML)
+
 ## 📹 Demo Video
 
 ### demo.mp4
@@ -21,13 +29,7 @@ Complete platform walkthrough showcasing:
 - Private claim review and approval
 - Real-time blockchain interactions
 
-Experience the platform with:
 
-- Interactive policy creation
-- Real-time claim submission
-- Encrypted data processing
-- Live blockchain integration
-- Modern React interface (or legacy HTML)
 
 ## 🔐 Core Concepts
 
