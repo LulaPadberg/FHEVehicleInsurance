@@ -1,477 +1,387 @@
-# FHE Vehicle Insurance Platform
+# Private Escrow System with Advanced FHE Features
 
-A revolutionary decentralized insurance platform built with Fully Homomorphic Encryption (FHE) technology, ensuring complete privacy and confidentiality in vehicle insurance processing and claims management.
+A cutting-edge privacy-preserving escrow and marketplace system built on Fully Homomorphic Encryption (FHE), featuring innovative solutions for decryption failures, timeout protection, and privacy-preserving calculations.
 
-## 🌟 Overview
+## Key Features
 
-This platform represents a breakthrough in insurance technology, combining blockchain transparency with cryptographic privacy. Using Zama's FHE technology, all sensitive information including personal data, claim amounts, and financial details remain encrypted throughout the entire insurance lifecycle while still enabling computational operations.
+### Core Innovations
 
-## 🌐 Live Demo
+- **Refund Mechanism**: Automatic refunds when decryption fails or times out
+- **Timeout Protection**: Prevents permanent fund locks with multiple timeout tiers
+- **Gateway Callback Pattern**: Asynchronous decryption handling with built-in failure recovery
+- **Privacy-Preserving Division**: Random multiplier technique prevents information leakage
+- **Price Obfuscation**: Noise injection to hide sensitive price patterns
+- **Gas Optimization**: Efficient HCU (Homomorphic Computation Unit) usage
 
-**Platform URL**: [https://fhe-vehicle-insurance.vercel.app/](https://fhe-vehicle-insurance.vercel.app/)
+### Security Features
 
-Experience the platform with:
+- **Input Validation**: Comprehensive checks on all external inputs
+- **Access Control**: Role-based permissions (buyer, seller, owner)
+- **Overflow Protection**: Built-in Solidity 0.8.24 safety checks
+- **Audit Trail**: Detailed event emissions for all state changes
 
-- Interactive policy creation
-- Real-time claim submission
-- Encrypted data processing
-- Live blockchain integration
-- Modern React interface (or legacy HTML)
+## Architecture
 
-## 📹 Demo Video
+### Contracts
 
-### demo.mp4
+1. **PrivateEscrowWithRefund**: Secure escrow with refund and timeout mechanisms
+2. **PrivacyPreservingMarket**: Marketplace with advanced privacy-preserving calculations
 
-Complete platform walkthrough showcasing:
+### Technology Stack
 
-- Policy creation with encrypted data
-- Confidential claim submission process
-- Private claim review and approval
-- Real-time blockchain interactions
+- **Solidity**: ^0.8.24
+- **FHE Library**: @fhevm/solidity v0.8.0
+- **Frontend**: React 19 + TypeScript + Vite
+- **Testing**: Hardhat + Chai
+- **Network**: Incentiv Testnet (Sepolia compatible)
 
-
-
-## 🔐 Core Concepts
-
-### Universal FHEVM SDK Integration (NEW)
-
-The modern React application integrates the **Universal FHEVM SDK** (`@fhevm/universal-sdk`), providing:
-
-- **Framework-Agnostic Core**: Works with React, Vue, or vanilla JavaScript
-- **Wagmi-like API**: Familiar React hooks interface for web3 developers
-- **Easy Integration**: Less than 10 lines of code to get started
-- **Type-Safe**: Full TypeScript support with intelligent type inference
-- **Built-in Hooks**: `useFhevmClient`, `useEncrypt`, `useDecrypt` for React
-
-**Example Usage:**
-```typescript
-import { useFhevmClient, useEncrypt } from '@fhevm/universal-sdk/react';
-
-// Initialize FHEVM
-const { client, isReady } = useFhevmClient({
-  network: { chainId: 11155111, rpcUrl: '...', name: 'Sepolia' }
-});
-
-// Encrypt data
-const { encryptValue } = useEncrypt();
-const encrypted = await encryptValue('uint32', 25000);
-```
-
-### FHE Contract - Privacy Vehicle Insurance Claims
-
-**Confidential Automobile Insurance Processing**: The platform utilizes Fully Homomorphic Encryption to enable privacy-preserving vehicle insurance claims processing, ensuring that all sensitive claim data remains encrypted on-chain while allowing authorized parties to perform necessary computations and validations.
-
-#### Complete Privacy Protection
-- **Personal Data Encryption**: All personal information, vehicle values, and claim amounts are encrypted and never exposed
-- **Computational Privacy**: Mathematical operations on encrypted data without decryption
-- **Zero Knowledge Processing**: Insurance calculations performed without revealing underlying data
-- **End-to-End Confidentiality**: From policy creation to claim settlement, data remains private
-
-#### Confidential Insurance Workflow
-- **Private Policy Management**: Age, driving experience, and vehicle details encrypted on-chain
-- **Secure Claims Processing**: Damage assessments and repair costs processed confidentially
-- **Encrypted Risk Assessment**: AI-powered risk scoring without exposing personal information
-- **Confidential Settlements**: Payout calculations performed on encrypted data
-
-## 🚗 Key Features
-
-### For Policyholders
-
-- **Private Policy Creation**: Submit encrypted personal and vehicle information
-- **Confidential Claims**: File claims with encrypted damage and repair cost data
-- **Secure Documentation**: IPFS-based document storage with privacy protection
-- **Real-time Status**: Track policy and claim status while maintaining privacy
-
-### For Insurance Companies
-
-- **Encrypted Risk Assessment**: Calculate risk scores on encrypted policyholder data
-- **Private Claims Review**: Assess claims without accessing raw personal information
-- **Secure Payout Processing**: Process settlements while maintaining data confidentiality
-- **Compliance-Ready**: Meet privacy regulations while maintaining operational efficiency
-
-### For Reviewers
-
-- **Authorized Access**: Designated reviewers can process claims with encrypted data
-- **Confidential Assessment**: Review and approve claims without compromising privacy
-- **Audit Trail**: Complete transaction history with privacy preservation
-
-## 🛡️ Privacy Protection
-
-- **On-Chain Encryption**: All sensitive data encrypted before blockchain storage
-- **Zero-Knowledge Proofs**: Verify claims validity without revealing details
-- **Selective Disclosure**: Share only necessary information with authorized parties
-- **GDPR Compliant**: Built-in privacy-by-design architecture
-
-## 💡 Use Cases
-
-### Individual Users
-
-- Protect personal financial information during insurance applications
-- Maintain privacy of driving history and vehicle details
-- Secure claim processing for accidents and damages
-- Confidential premium calculations
-
-### Insurance Companies
-
-- Reduce data breach risks through encrypted processing
-- Comply with privacy regulations while maintaining efficiency
-- Enable cross-border insurance with privacy guarantees
-- Implement transparent yet private claim settlements
-
-### Enterprise Fleet Management
-
-- Bulk policy management with privacy protection
-- Confidential fleet risk assessment
-- Private claims processing for commercial vehicles
-- Secure multi-party insurance arrangements
-
-## 🚀 Quick Start
-
-### Try the Modern React Application
+## Installation
 
 ```bash
-# Clone or navigate to the project
-cd D:\
+# Clone repository
+git clone <repository-url>
+cd dapp
 
-# Navigate to React frontend
-cd private-vehicle-insurance
 
 # Install dependencies
 npm install
 
-# Start development server
-npm run dev
-
-# Open http://localhost:3001 in your browser
+# Configure environment
+cp .env.example .env
+# Edit .env with your private key and RPC URLs
 ```
 
-### Try the Legacy HTML Application
+## Configuration
+
+Create `.env` file:
+
+```env
+VITE_PRIVATE_KEY=your_private_key_here
+VITE_INCENTIV_RPC_URL=https://rpc.testnet.incentiv.net
+SEPOLIA_RPC_URL=https://rpc.sepolia.org
+```
+
+## Compilation
 
 ```bash
-# Simply open in browser
-open PrivateVehicleInsurance/index.html
+# Compile contracts
+npm run compile
 
-# Or use any HTTP server
-cd PrivateVehicleInsurance
-npx http-server -p 8080
+# Verify compilation
+npx hardhat compile
 ```
 
+## Testing
 
+```bash
+# Run all tests
+npm test
 
-## 📋 Contract Information
+# Run specific test file
+npx hardhat test test/PrivateEscrow.test.ts
 
-### Deployed Contracts (Sepolia Testnet)
+# Run with gas reporting
+REPORT_GAS=true npm test
+```
 
-**PrivateVehicleInsurance Contract**:
+## Deployment
 
-- Address: `0x2A86c562acc0a861A96E4114d7323987e313795F`
-- Network: Sepolia Testnet (Chain ID: 11155111)
-- Etherscan: [View Contract](https://sepolia.etherscan.io/address/0x2A86c562acc0a861A96E4114d7323987e313795F)
+### Testnet Deployment
 
-**PauserSet Contract**:
+```bash
+# Deploy to Incentiv testnet
+npx hardhat run scripts/deploy.ts --network incentiv
 
-- Address: `0xF1a0db0b5c83a341Ac44EAc5cABFbB7cbf37603D`
-- Network: Sepolia Testnet
-- Etherscan: [View Contract](https://sepolia.etherscan.io/address/0xF1a0db0b5c83a341Ac44EAc5cABFbB7cbf37603D)
+# Verify on explorer
+npx hardhat verify --network incentiv <CONTRACT_ADDRESS>
+```
 
-### Technology Stack
+### Local Development
 
-#### Smart Contract Layer
-- **Smart Contracts**: Solidity 0.8.24
-- **FHE Library**: Zama FHEVM v0.5.0
-- **Development Framework**: Hardhat with TypeScript
-- **Testing**: Hardhat Toolbox, Chai Matchers
-- **Verification**: Etherscan API Integration
+```bash
+# Start local Hardhat node
+npx hardhat node
 
-#### Frontend Applications
+# Deploy to localhost
+npx hardhat run scripts/deploy.ts --network localhost
+```
 
-**Modern React Application** (`private-vehicle-insurance/`)
-- **Framework**: Next.js 14 (App Router)
-- **UI Library**: React 18 + TypeScript
-- **Styling**: Tailwind CSS 3.4
-- **FHE SDK**: @fhevm/universal-sdk (Universal FHEVM SDK)
-- **Web3**: Ethers.js v6.4.0
-- **Development**: Hot Module Replacement, TypeScript 5.5
-- **Build**: Next.js production optimization
-- **Features**:
-  - Client-side FHE encryption using Universal SDK
-  - React hooks for FHE operations (useFhevmClient, useEncrypt)
-  - Modern component architecture
-  - Responsive design with Tailwind
-  - Type-safe development
-  - MetaMask integration
-  - Real-time status updates
+## Usage Examples
 
-**Static HTML Reference** (Legacy)
-- **Frontend**: Pure HTML5, CSS3, Vanilla JavaScript
-- **Web3**: Ethers.js v5.7.2 (CDN)
-- **FHE**: fhevmjs (direct integration)
-- **Design**: Gradient UI with dynamic theming
-- **Features**: Zero build process, instant deployment
+### Creating an Escrow
 
-#### Storage & Infrastructure
-- **Document Storage**: IPFS
-- **Blockchain Network**: Ethereum Sepolia Testnet
-- **RPC Provider**: Infura
-- **Deployment**: Vercel (Frontend), Hardhat (Contracts)
+```javascript
+import { createEscrow } from './utils/escrow';
 
+// Encrypt sensitive data
+const encryptedAmount = await fhevm.encrypt(1000000); // 1M units
+const encryptedPrice = await fhevm.encrypt(5000);
+const proof = await fhevm.generateProof([encryptedAmount, encryptedPrice]);
 
+// Create escrow
+const tx = await escrowContract.createEscrow(
+    sellerAddress,
+    encryptedAmount,
+    encryptedPrice,
+    proof,
+    86400, // 24 hours timeout
+    { value: ethers.parseEther("0.1") }
+);
 
-## 🔧 Technical Architecture
+const receipt = await tx.wait();
+const escrowId = receipt.events[0].args.escrowId;
+console.log(`Escrow created: ${escrowId}`);
+```
+
+### Requesting Decryption
+
+```javascript
+// Request Gateway decryption
+const tx = await escrowContract.requestDecryption(escrowId);
+await tx.wait();
+
+// Listen for completion
+escrowContract.on("EscrowCompleted", (id, amount) => {
+    if (id === escrowId) {
+        console.log(`Escrow completed with amount: ${amount}`);
+    }
+});
+
+// Listen for refunds
+escrowContract.on("EscrowRefunded", (id, reason) => {
+    if (id === escrowId) {
+        console.log(`Escrow refunded: ${reason}`);
+    }
+});
+```
+
+### Handling Timeouts
+
+```javascript
+// Check if timed out
+const timedOut = await escrowContract.isTimedOut(escrowId);
+
+if (timedOut) {
+    // Trigger timeout to recover funds
+    const tx = await escrowContract.triggerTimeout(escrowId);
+    await tx.wait();
+    console.log("Timeout triggered, funds refunded");
+}
+```
+
+### Marketplace Usage
+
+```javascript
+// Seller creates listing
+const listingTx = await marketContract.createListing(
+    encryptedPrice,
+    encryptedQuantity,
+    proof
+);
+const listingId = (await listingTx.wait()).events[0].args.listingId;
+
+// Buyer places order
+const orderTx = await marketContract.placeOrder(
+    listingId,
+    encryptedQuantity,
+    proof,
+    { value: paymentAmount }
+);
+const orderId = (await orderTx.wait()).events[0].args.orderId;
+
+// Request decryption
+await marketContract.requestOrderDecryption(orderId);
+```
+
+## Privacy Techniques Explained
+
+### 1. Privacy-Preserving Division
+
+**Problem**: Division on encrypted values can leak information
+
+**Solution**: Random Multiplier Technique
+
+```solidity
+// Multiply by random factor before division
+uint256 multiplier = randomValue % 10000 + 1;
+euint64 scaledValue = FHE.mul(encryptedValue, FHE.asEuint64(multiplier));
+
+// After decryption, divide by same multiplier
+uint256 trueValue = decryptedScaledValue / multiplier;
+```
+
+### 2. Price Obfuscation
+
+**Problem**: Price patterns can reveal business strategies
+
+**Solution**: Noise Injection
+
+```solidity
+// Add random noise to price
+uint256 noise = randomValue % 1000;
+euint64 obfuscatedPrice = FHE.add(basePrice, FHE.asEuint64(noise));
+
+// Noise is removed during decryption
+```
+
+### 3. Gateway Callback Pattern
+
+**Problem**: FHE decryption is async and may fail
+
+**Solution**: Request-Callback with Timeout
+
+```
+User Request → Gateway Processing → Callback (success or timeout)
+```
+
+## Constants Reference
+
+### Timeout Values
+
+- `MIN_TIMEOUT`: 1 hour (minimum escrow duration)
+- `MAX_TIMEOUT`: 30 days (maximum escrow duration)
+- `DECRYPTION_TIMEOUT`: 2 hours (Gateway response deadline)
+- `ORDER_TIMEOUT`: 1 hour (marketplace order timeout)
+
+### Privacy Parameters
+
+- `OBFUSCATION_RANGE`: 1000 (noise range for obfuscation)
+- `PRICE_MULTIPLIER_RANGE`: 10000 (multiplier range for division)
+- `OBFUSCATION_NOISE_MAX`: 1000 (maximum noise value)
+
+### Fees
+
+- Platform Fee: 2.5% (250 basis points)
+- Adjustable by owner (max 10%)
+
+## Events
+
+### PrivateEscrowWithRefund
+
+```solidity
+event EscrowCreated(bytes32 indexed escrowId, address indexed buyer, address indexed seller, uint256 timeout);
+event DecryptionRequested(bytes32 indexed escrowId, uint256 requestId);
+event EscrowCompleted(bytes32 indexed escrowId, uint256 amount);
+event EscrowRefunded(bytes32 indexed escrowId, string reason);
+event EscrowCancelled(bytes32 indexed escrowId);
+event TimeoutTriggered(bytes32 indexed escrowId);
+event FeesWithdrawn(address indexed to, uint256 amount);
+```
+
+### PrivacyPreservingMarket
+
+```solidity
+event ListingCreated(bytes32 indexed listingId, address indexed seller);
+event OrderPlaced(bytes32 indexed orderId, bytes32 indexed listingId, address indexed buyer);
+event DecryptionRequested(bytes32 indexed orderId, uint256 requestId);
+event OrderCompleted(bytes32 indexed orderId, uint256 finalPrice);
+event OrderRefunded(bytes32 indexed orderId, string reason);
+event ListingCancelled(bytes32 indexed listingId);
+```
+
+## Troubleshooting
+
+### Common Issues
+
+**Decryption Timeout**
+- Gateway may be down or overloaded
+- Check Gateway status before requesting decryption
+- System will auto-refund after DECRYPTION_TIMEOUT
+
+**Transaction Reverted**
+- Verify timeout hasn't passed
+- Check you have correct permissions (buyer/seller)
+- Ensure sufficient gas and funds
+
+**Invalid Timeout**
+- Must be between MIN_TIMEOUT (1 hour) and MAX_TIMEOUT (30 days)
+- Use values in seconds
+
+## Gas Estimates
+
+| Operation | Estimated Gas | HCU Cost |
+|-----------|--------------|----------|
+| Create Escrow | ~200k | Medium |
+| Request Decryption | ~150k | High |
+| Trigger Timeout | ~50k | None |
+| Cancel Escrow | ~50k | None |
+| Create Listing | ~180k | Medium |
+| Place Order | ~160k | High |
+
+## Security Considerations
+
+1. **Always validate inputs**: Check addresses, amounts, and timeouts
+2. **Monitor events**: Listen for refunds and completions
+3. **Handle timeouts**: Implement timeout monitoring in your app
+4. **Test thoroughly**: Use testnet before mainnet deployment
+5. **Audit contracts**: Have contracts audited before production use
+
+## Documentation
+
+- [Architecture Documentation](docs/ARCHITECTURE.md)
+- [API Documentation](docs/API_DOCUMENTATION.md)
+
+## Development
 
 ### Project Structure
 
 ```
-D:\/
-├── contracts/                          # Smart contracts
-│   ├── PrivateVehicleInsurance.sol    # Main insurance contract
-│   └── PauserSet.sol                  # Emergency pause control
-├── scripts/                            # Deployment & interaction scripts
-│   ├── deploy.js                      # Contract deployment
-│   ├── verify.js                      # Etherscan verification
-│   ├── interact.js                    # Contract interaction
-│   └── simulate.js                    # Workflow simulation
-├── test/                               # Contract tests
-│   ├── PrivateVehicleInsurance.test.ts
-│   └── PauserSet.test.ts
-├── private-vehicle-insurance/          # Modern React Frontend (NEW)
-│   ├── app/                           # Next.js App Router
-│   │   ├── layout.tsx                 # Root layout
-│   │   ├── page.tsx                   # Main application
-│   │   └── globals.css                # Global styles
-│   ├── package.json                   # Dependencies (Next.js, SDK)
-│   ├── tsconfig.json                  # TypeScript config
-│   └── tailwind.config.ts             # Tailwind config
-├── PrivateVehicleInsurance/            # Legacy HTML Frontend
-│   └── index.html                     # Static application
-├── hardhat.config.ts                   # Hardhat configuration
-└── package.json                        # Project dependencies
+dapp/
+├── contracts/              # Solidity contracts
+│   ├── PrivateEscrowWithRefund.sol
+│   └── PrivacyPreservingMarket.sol
+├── test/                   # Test files
+│   └── PrivateEscrow.test.ts
+├── src/                    # Frontend source
+│   ├── components/        # React components
+│   ├── hooks/             # Custom hooks
+│   └── utils/             # Utility functions
+├── docs/                  # Documentation
+│   ├── ARCHITECTURE.md
+│   └── API_DOCUMENTATION.md
+└── hardhat.config.cjs     # Hardhat configuration
 ```
 
-### Smart Contract Layer
-
-- FHE-enabled Solidity contracts
-- Encrypted state management
-- Private computation functions
-- Access control mechanisms
-
-### Frontend Applications
-
-**Modern React Stack** (private-vehicle-insurance/)
-- Next.js 14 App Router architecture
-- Universal FHEVM SDK integration
-- React hooks for FHE operations
-- TypeScript for type safety
-- Tailwind CSS for styling
-- MetaMask wallet integration
-- Real-time encryption/decryption
-- Responsive design for all devices
-
-**Legacy HTML Stack** (PrivateVehicleInsurance/)
-- Pure HTML/CSS/JavaScript
-- Direct fhevmjs integration
-- Zero build process
-- Dynamic color theming
-- MetaMask integration
-
-### Privacy Infrastructure
-
-- Zama FHE technology integration
-- Client-side encryption via Universal SDK
-- Encrypted data validation
-- Secure key management
-- Privacy-preserving computations
-
-## 📊 Frontend Comparison
-
-| Feature | Modern React App | Legacy HTML App |
-|---------|-----------------|-----------------|
-| **Framework** | Next.js 14 + React 18 | Vanilla JavaScript |
-| **FHE Integration** | Universal FHEVM SDK | Direct fhevmjs |
-| **Language** | TypeScript | JavaScript |
-| **Styling** | Tailwind CSS | Inline CSS |
-| **Build Process** | Yes (optimized) | No (instant) |
-| **Hot Reload** | ✅ Yes | ❌ No |
-| **Type Safety** | ✅ Yes | ❌ No |
-| **SEO** | ✅ Optimized | ⚠️ Basic |
-| **Bundle Size** | Optimized chunks | Single file |
-| **Development** | Modern tooling | Simple editor |
-| **Production** | Vercel/Node.js | Any web server |
-| **Maintenance** | Easy (modular) | Moderate |
-| **Best For** | Production apps | Quick demos |
-
-**Recommendation:** Use the **Modern React App** for production deployments and the **Legacy HTML App** for quick testing or demonstrations.
-
-### When to Use Each Frontend
-
-**Choose Modern React App if you:**
-- 🏢 Building a production application
-- 🔧 Need a modern development workflow
-- 📱 Require responsive, mobile-friendly UI
-- 🔐 Want integrated Universal FHEVM SDK
-- ⚡ Need hot module replacement
-- 🎯 Require SEO optimization
-- 📦 Want code splitting and optimization
-- 🛠️ Need TypeScript type safety
-
-**Choose Legacy HTML App if you:**
-- 🚀 Need quick deployment
-- 📝 Want to study FHE integration basics
-- 🎓 Learning FHE concepts
-- 🔬 Prototyping or testing
-- 📊 Creating demos or presentations
-- 💻 No build tools available
-- 🌐 Need maximum browser compatibility
-- ⚡ Want instant page loads
-
-## 🎯 Innovation Highlights
-
-- **First-of-its-Kind**: Revolutionary application of FHE to insurance
-- **Dual Frontend Architecture**: Both modern and legacy implementations
-- **Complete Privacy**: End-to-end encryption for all insurance data
-- **Universal SDK Integration**: Leveraging latest FHE development tools
-- **Regulatory Compliance**: Built-in privacy compliance mechanisms
-- **Scalable Architecture**: Designed for enterprise-level adoption
-- **User-Friendly**: Complex cryptography hidden behind intuitive interface
-- **Developer Choice**: Flexible deployment options for different use cases
-
-## 🚀 Deployment & Development
-
-### Smart Contract Development
+### Running Frontend
 
 ```bash
-# Install dependencies
-npm install
-
-# Compile contracts
-npx hardhat compile
-
-# Run tests
-npx hardhat test
-
-# Deploy to Sepolia
-npx hardhat run scripts/deploy.js --network sepolia
-
-# Verify contracts
-node scripts/verify.js --network sepolia
-
-# Interact with contracts
-node scripts/interact.js --network sepolia
-
-# Run complete simulation
-node scripts/simulate.js --network sepolia
-```
-
-### Frontend Development
-
-#### Modern React Application (Recommended)
-
-```bash
-# Navigate to React app
-cd private-vehicle-insurance
-
-# Install dependencies
-npm install
-
-# Run development server
+# Start development server
 npm run dev
-# Visit http://localhost:3001
 
 # Build for production
 npm run build
 
-# Start production server
-npm start
-
-# Type checking
-npm run type-check
-
-# Lint code
-npm run lint
+# Preview production build
+npm run preview
 ```
 
-**Key Features:**
-- 🎨 Modern UI with Tailwind CSS
-- ⚡ Fast refresh during development
-- 🔐 Integrated Universal FHEVM SDK
-- 📱 Fully responsive design
-- 🔒 Type-safe development with TypeScript
-- 🚀 Production-ready builds
-- 🎯 SEO optimized
+## Contributing
 
-#### Legacy HTML Application
+Contributions are welcome! Please:
 
-```bash
-# Simply open in browser
-open PrivateVehicleInsurance/index.html
+1. Fork the repository
+2. Create a feature branch
+3. Add tests for new features
+4. Ensure all tests pass
+5. Submit a pull request
 
-# Or serve with any HTTP server
-npx http-server PrivateVehicleInsurance -p 8080
-```
+## License
 
-### Deployment Scripts
+BSD-3-Clause-Clear
 
-1. **`scripts/deploy.js`** - Main deployment script
-   - Deploys PauserSet contract
-   - Deploys PrivateVehicleInsurance contract
-   - Saves deployment information
-   - Generates verification commands
+## Acknowledgments
 
-2. **`scripts/verify.js`** - Contract verification
-   - Verifies contracts on Etherscan
-   - Automatic constructor argument handling
-   - Saves verification status
+- Built with [@fhevm/solidity](https://github.com/zama-ai/fhevm)
+- Powered by [Incentiv Network](https://incentiv.network)
+- FHE technology by [Zama](https://zama.ai)
 
-3. **`scripts/interact.js`** - Contract interaction
-   - Create policies
-   - Submit claims
-   - Authorize reviewers
-   - Query contract state
+## Support
 
-4. **`scripts/simulate.js`** - Complete workflow simulation
-   - Multi-user policy creation
-   - Claim submission scenarios
-   - Review and approval process
-   - Payment processing
-   - Risk score calculations
-
-### Configuration
-
-Create a `.env` file based on `.env.example`:
-
-```env
-# Network
-RPC_URL=https://sepolia.infura.io/v3/YOUR_INFURA_KEY
-DEPLOYER_PRIVATE_KEY=your_private_key
-
-# Etherscan
-ETHERSCAN_API_KEY=your_etherscan_api_key
-
-# FHE Configuration
-NUM_PAUSERS=2
-PAUSER_ADDRESS_0=0x...
-PAUSER_ADDRESS_1=0x...
-```
-
-## 🔗 Resources
-
-**GitHub Repository**: [https://github.com/LulaPadberg/FHEVehicleInsurance](https://github.com/LulaPadberg/FHEVehicleInsurance)
-
-**Live Platform**: [https://fhe-vehicle-insurance.vercel.app/](https://fhe-vehicle-insurance.vercel.app/)
-
-**Smart Contracts (Sepolia)**:
-
-- PrivateVehicleInsurance: [0x2A86c562acc0a861A96E4114d7323987e313795F](https://sepolia.etherscan.io/address/0x2A86c562acc0a861A96E4114d7323987e313795F)
-- PauserSet: [0xF1a0db0b5c83a341Ac44EAc5cABFbB7cbf37603D](https://sepolia.etherscan.io/address/0xF1a0db0b5c83a341Ac44EAc5cABFbB7cbf37603D)
-
-## 🏆 Awards and Recognition
-
-This project represents a significant advancement in privacy-preserving financial technology, demonstrating the practical application of cutting-edge cryptographic techniques in real-world insurance scenarios.
-
-## 📄 License
-
-This project is licensed under the MIT License - promoting open innovation in privacy-preserving technologies.
+For issues or questions:
+- Open an issue on GitHub
+- Check documentation in `/docs`
+- Review test files for usage examples
 
 ---
 
-_Built with ❤️ for a more private and secure insurance future_
+**Note**: This system uses advanced cryptographic techniques. Always test thoroughly on testnet before deploying to mainnet. The refund mechanisms and timeout protection are designed to keep user funds safe, but proper monitoring and error handling in your application are essential.
