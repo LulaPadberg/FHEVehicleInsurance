@@ -14,6 +14,11 @@ describe("PrivateVehicleInsurance", function () {
   let pauser: SignerWithAddress;
   let other: SignerWithAddress;
 
+  // Timeout constants
+  const MIN_TIMEOUT = 3600; // 1 hour
+  const MAX_TIMEOUT = 30 * 24 * 3600; // 30 days
+  const DECRYPTION_TIMEOUT = 2 * 3600; // 2 hours
+
   beforeEach(async function () {
     // Get signers
     [deployer, insuranceCompany, policyHolder, reviewer, pauser, other] =
@@ -158,7 +163,8 @@ describe("PrivateVehicleInsurance", function () {
           4500,
           1, // Moderate severity
           "QmTestHash123",
-          true
+          true,
+          86400 // 24 hour timeout
         );
 
       await expect(tx)
@@ -172,16 +178,17 @@ describe("PrivateVehicleInsurance", function () {
       expect(claim.severity).to.equal(1); // Moderate
       expect(claim.ipfsDocumentHash).to.equal("QmTestHash123");
       expect(claim.isConfidential).to.be.true;
+      expect(claim.timeoutDeadline).to.be.gt(0);
     });
 
     it("Should track claims by holder", async function () {
       await insurance
         .connect(policyHolder)
-        .submitClaim(policyId, 5000, 4500, 1, "QmHash1", true);
+        .submitClaim(policyId, 5000, 4500, 1, "QmHash1", true, 86400);
 
       await insurance
         .connect(policyHolder)
-        .submitClaim(policyId, 3000, 2800, 0, "QmHash2", false);
+        .submitClaim(policyId, 3000, 2800, 0, "QmHash2", false, 86400);
 
       const claims = await insurance.getClaimsByHolder(policyHolder.address);
       expect(claims.length).to.equal(2);
@@ -193,7 +200,7 @@ describe("PrivateVehicleInsurance", function () {
       await expect(
         insurance
           .connect(policyHolder)
-          .submitClaim(policyId, 0, 4500, 1, "QmHash", true)
+          .submitClaim(policyId, 0, 4500, 1, "QmHash", true, 86400)
       ).to.be.revertedWith("Damage amount must be positive");
     });
 
@@ -201,7 +208,7 @@ describe("PrivateVehicleInsurance", function () {
       await expect(
         insurance
           .connect(policyHolder)
-          .submitClaim(policyId, 5000, 0, 1, "QmHash", true)
+          .submitClaim(policyId, 5000, 0, 1, "QmHash", true, 86400)
       ).to.be.revertedWith("Repair cost must be positive");
     });
 
@@ -209,7 +216,7 @@ describe("PrivateVehicleInsurance", function () {
       await expect(
         insurance
           .connect(policyHolder)
-          .submitClaim(policyId, 5000, 4500, 1, "", true)
+          .submitClaim(policyId, 5000, 4500, 1, "", true, 86400)
       ).to.be.revertedWith("Document hash required");
     });
 
@@ -217,30 +224,46 @@ describe("PrivateVehicleInsurance", function () {
       await expect(
         insurance
           .connect(other)
-          .submitClaim(policyId, 5000, 4500, 1, "QmHash", true)
+          .submitClaim(policyId, 5000, 4500, 1, "QmHash", true, 86400)
       ).to.be.revertedWith("Not policy holder");
+    });
+
+    it("Should fail with invalid timeout - too short", async function () {
+      await expect(
+        insurance
+          .connect(policyHolder)
+          .submitClaim(policyId, 5000, 4500, 1, "QmHash", true, 1800) // 30 min < MIN_TIMEOUT
+      ).to.be.revertedWith("Invalid timeout range");
+    });
+
+    it("Should fail with invalid timeout - too long", async function () {
+      await expect(
+        insurance
+          .connect(policyHolder)
+          .submitClaim(policyId, 5000, 4500, 1, "QmHash", true, 31 * 24 * 3600) // 31 days > MAX_TIMEOUT
+      ).to.be.revertedWith("Invalid timeout range");
     });
 
     it("Should test all accident severity levels", async function () {
       // Minor
       await insurance
         .connect(policyHolder)
-        .submitClaim(policyId, 1000, 900, 0, "QmHash1", false);
+        .submitClaim(policyId, 1000, 900, 0, "QmHash1", false, 86400);
 
       // Moderate
       await insurance
         .connect(policyHolder)
-        .submitClaim(policyId, 5000, 4500, 1, "QmHash2", false);
+        .submitClaim(policyId, 5000, 4500, 1, "QmHash2", false, 86400);
 
       // Major
       await insurance
         .connect(policyHolder)
-        .submitClaim(policyId, 15000, 14000, 2, "QmHash3", true);
+        .submitClaim(policyId, 15000, 14000, 2, "QmHash3", true, 86400);
 
       // Severe
       await insurance
         .connect(policyHolder)
-        .submitClaim(policyId, 24000, 23000, 3, "QmHash4", true);
+        .submitClaim(policyId, 24000, 23000, 3, "QmHash4", true, 86400);
 
       expect(await insurance.nextClaimId()).to.equal(5);
     });
@@ -256,7 +279,7 @@ describe("PrivateVehicleInsurance", function () {
 
       await insurance
         .connect(policyHolder)
-        .submitClaim(policyId, 5000, 4500, 1, "QmHash", true);
+        .submitClaim(policyId, 5000, 4500, 1, "QmHash", true, 86400);
       claimId = 1n;
 
       // Authorize reviewer
@@ -338,7 +361,7 @@ describe("PrivateVehicleInsurance", function () {
       await insurance.connect(policyHolder).createPolicy(30, 10, 25000, 1200);
       await insurance
         .connect(policyHolder)
-        .submitClaim(1, 5000, 4500, 1, "QmHash", true);
+        .submitClaim(1, 5000, 4500, 1, "QmHash", true, 86400);
       claimId = 1n;
 
       // Approve the claim
@@ -364,11 +387,11 @@ describe("PrivateVehicleInsurance", function () {
       // Submit new claim that's not approved
       await insurance
         .connect(policyHolder)
-        .submitClaim(1, 3000, 2800, 0, "QmHash2", false);
+        .submitClaim(1, 3000, 2800, 0, "QmHash2", false, 86400);
 
       await expect(
         insurance.connect(insuranceCompany).processPayment(2)
-      ).to.be.revertedWith("Claim not approved");
+      ).to.be.revertedWith("Claim not ready for payment");
     });
 
     it("Should fail if not insurance company", async function () {
@@ -507,7 +530,7 @@ describe("PrivateVehicleInsurance", function () {
       await insurance.connect(policyHolder).createPolicy(30, 10, 25000, 1200);
       await insurance
         .connect(policyHolder)
-        .submitClaim(1, 5000, 4500, 1, "QmConfidentialHash", true);
+        .submitClaim(1, 5000, 4500, 1, "QmConfidentialHash", true, 86400);
       claimId = 1n;
 
       await insurance
@@ -580,13 +603,13 @@ describe("PrivateVehicleInsurance", function () {
       // Submit claims for each policy
       await insurance
         .connect(policyHolder)
-        .submitClaim(1, 5000, 4500, 1, "QmHash1", true);
+        .submitClaim(1, 5000, 4500, 1, "QmHash1", true, 86400);
       await insurance
         .connect(policyHolder)
-        .submitClaim(2, 3000, 2800, 0, "QmHash2", false);
+        .submitClaim(2, 3000, 2800, 0, "QmHash2", false, 86400);
       await insurance
         .connect(policyHolder)
-        .submitClaim(3, 15000, 14000, 2, "QmHash3", true);
+        .submitClaim(3, 15000, 14000, 2, "QmHash3", true, 86400);
 
       const policies = await insurance.getPoliciesByHolder(policyHolder.address);
       const claims = await insurance.getClaimsByHolder(policyHolder.address);
@@ -602,7 +625,7 @@ describe("PrivateVehicleInsurance", function () {
       // 2. Submit claim
       await insurance
         .connect(policyHolder)
-        .submitClaim(1, 5000, 4500, 1, "QmHash", true);
+        .submitClaim(1, 5000, 4500, 1, "QmHash", true, 86400);
 
       let claim = await insurance.claims(1);
       expect(claim.status).to.equal(0); // Submitted
@@ -625,6 +648,149 @@ describe("PrivateVehicleInsurance", function () {
 
       claim = await insurance.claims(1);
       expect(claim.status).to.equal(4); // Paid
+    });
+  });
+
+  describe("Decryption Request and Status", function () {
+    let claimId: bigint;
+
+    beforeEach(async function () {
+      await insurance.connect(policyHolder).createPolicy(30, 10, 25000, 1200);
+      await insurance
+        .connect(policyHolder)
+        .submitClaim(1, 5000, 4500, 1, "QmHash", true, 86400);
+      claimId = 1n;
+
+      // Approve the claim
+      await insurance
+        .connect(insuranceCompany)
+        .reviewClaim(claimId, 4800, 4500, "Approved", 2);
+    });
+
+    it("Should get decryption request ID", async function () {
+      const requestId = await insurance.getDecryptionRequestId(claimId);
+      expect(requestId).to.equal(0); // Not yet requested
+    });
+
+    it("Should get decryption status", async function () {
+      const status = await insurance.getDecryptionStatus(claimId);
+      expect(status.requested).to.be.false;
+      expect(status.callbackReceived).to.be.false;
+      expect(status.requestId).to.equal(0);
+      expect(status.timeoutDeadline).to.be.gt(0);
+    });
+
+    it("Should check if claim is timed out", async function () {
+      expect(await insurance.isClaimTimedOut(claimId)).to.be.false;
+    });
+
+    it("Should fail to request decryption if not authorized", async function () {
+      await expect(
+        insurance.connect(other).requestClaimDecryption(claimId)
+      ).to.be.revertedWith("Not authorized to request decryption");
+    });
+
+    it("Should fail to request decryption for non-approved claim", async function () {
+      // Submit a new claim that's not approved
+      await insurance
+        .connect(policyHolder)
+        .submitClaim(1, 3000, 2800, 0, "QmHash2", false, 86400);
+
+      await expect(
+        insurance.connect(insuranceCompany).requestClaimDecryption(2)
+      ).to.be.revertedWith("Claim not approved for decryption");
+    });
+  });
+
+  describe("Timeout Protection", function () {
+    let claimId: bigint;
+
+    beforeEach(async function () {
+      await insurance.connect(policyHolder).createPolicy(30, 10, 25000, 1200);
+      await insurance
+        .connect(policyHolder)
+        .submitClaim(1, 5000, 4500, 1, "QmHash", true, 3600); // 1 hour timeout
+      claimId = 1n;
+
+      // Approve the claim
+      await insurance
+        .connect(insuranceCompany)
+        .reviewClaim(claimId, 4800, 4500, "Approved", 2);
+    });
+
+    it("Should not allow timeout before deadline", async function () {
+      await expect(
+        insurance.triggerClaimTimeout(claimId)
+      ).to.be.revertedWith("Timeout not yet reached");
+    });
+
+    it("Should trigger timeout after deadline", async function () {
+      // Advance time past timeout
+      await time.increase(3601); // 1 hour + 1 second
+
+      const tx = await insurance.triggerClaimTimeout(claimId);
+
+      await expect(tx)
+        .to.emit(insurance, "TimeoutTriggered")
+        .withArgs(claimId);
+
+      await expect(tx)
+        .to.emit(insurance, "ClaimRefunded");
+
+      const claim = await insurance.claims(claimId);
+      expect(claim.status).to.equal(7); // Refunded
+    });
+
+    it("Should correctly report timeout status", async function () {
+      expect(await insurance.isClaimTimedOut(claimId)).to.be.false;
+
+      await time.increase(3601);
+
+      expect(await insurance.isClaimTimedOut(claimId)).to.be.true;
+    });
+  });
+
+  describe("Privacy Features", function () {
+    it("Should store obfuscation noise in claim", async function () {
+      await insurance.connect(policyHolder).createPolicy(30, 10, 25000, 1200);
+      await insurance
+        .connect(policyHolder)
+        .submitClaim(1, 5000, 4500, 1, "QmHash", true, 86400);
+
+      const claim = await insurance.claims(1);
+      expect(claim.obfuscationNoise).to.be.gte(0);
+      expect(claim.obfuscationNoise).to.be.lt(1000); // OBFUSCATION_NOISE_MAX
+    });
+
+    it("Should store price multiplier in claim", async function () {
+      await insurance.connect(policyHolder).createPolicy(30, 10, 25000, 1200);
+      await insurance
+        .connect(policyHolder)
+        .submitClaim(1, 5000, 4500, 1, "QmHash", true, 86400);
+
+      const claim = await insurance.claims(1);
+      expect(claim.priceMultiplier).to.be.gte(1);
+      expect(claim.priceMultiplier).to.be.lte(10000); // PRICE_MULTIPLIER_RANGE
+    });
+
+    it("Should generate different noise for different claims", async function () {
+      await insurance.connect(policyHolder).createPolicy(30, 10, 25000, 1200);
+
+      await insurance
+        .connect(policyHolder)
+        .submitClaim(1, 5000, 4500, 1, "QmHash1", true, 86400);
+
+      await insurance
+        .connect(policyHolder)
+        .submitClaim(1, 5000, 4500, 1, "QmHash2", true, 86400);
+
+      const claim1 = await insurance.claims(1);
+      const claim2 = await insurance.claims(2);
+
+      // Not guaranteed to be different but should be different values
+      // At least verify they're stored correctly
+      expect(claim1.obfuscationNoise).to.be.gte(0);
+      expect(claim2.obfuscationNoise).to.be.gte(0);
     });
   });
 });

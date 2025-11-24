@@ -1,9 +1,9 @@
-# Project Summary - Private Escrow System (dapp136)
+# Project Summary - Private Vehicle Insurance Platform
 
 ## Project Overview
 
-**Project Name**: Private Escrow System with Advanced FHE Features
-**Location**: D:\zamadapp\dapp136
+**Project Name**: Private Vehicle Insurance Platform with Advanced FHE Features
+**Location**: Private Vehicle Insurance Platform
 **Technology**: Fully Homomorphic Encryption (FHE) on Ethereum
 **Status**: Complete - Ready for Testing and Deployment
 
@@ -183,12 +183,12 @@ struct EscrowTransaction {
 ## Project Structure
 
 ```
-D:\zamadapp\dapp136/
+project/
 ├── contracts/
-│   ├── PrivateEscrowWithRefund.sol     # Main escrow contract
-│   └── PrivacyPreservingMarket.sol     # Marketplace contract
+│   ├── PrivateVehicleInsurance.sol     # Main insurance contract
+│   └── PauserSet.sol                   # Pauser management
 ├── test/
-│   └── PrivateEscrow.test.ts           # Comprehensive tests
+│   └── PrivateVehicleInsurance.test.ts # Comprehensive tests
 ├── docs/
 │   ├── ARCHITECTURE.md                 # Architecture documentation
 │   ├── API_DOCUMENTATION.md            # API reference
@@ -208,43 +208,38 @@ D:\zamadapp\dapp136/
 
 ## Smart Contracts
 
-### 1. PrivateEscrowWithRefund.sol
+### 1. PrivateVehicleInsurance.sol
 
-**Purpose**: Secure escrow with built-in safety mechanisms
+**Purpose**: Secure vehicle insurance with built-in safety mechanisms
 
 **Key Features**:
 - Gateway callback pattern for async decryption
 - Automatic refund on decryption failure
 - Multi-tier timeout protection
 - Role-based access control
+- Privacy-preserving division
+- Price obfuscation with noise injection
 - Comprehensive event emissions
 
 **Functions**:
-- `createEscrow()`: Create new escrow with encrypted values
-- `requestDecryption()`: Request Gateway decryption
-- `decryptionCallback()`: Handle Gateway response
-- `triggerTimeout()`: Manual timeout trigger for stuck transactions
-- `cancelEscrow()`: Buyer cancellation (pre-decryption)
-- `withdrawFees()`: Owner fee withdrawal
-- View functions for escrow status
+- `createPolicy()`: Create new policy with encrypted values
+- `submitClaim()`: Submit claim with obfuscated amounts and timeout
+- `reviewClaim()`: Review claim with encrypted assessment
+- `requestClaimDecryption()`: Request Gateway decryption
+- `claimDecryptionCallback()`: Handle Gateway response
+- `triggerClaimTimeout()`: Manual timeout trigger for stuck claims
+- `processPayment()`: Complete payment to claimant
+- `calculateRiskScore()`: Calculate encrypted risk score
+- View functions for policy, claim, and decryption status
 
-### 2. PrivacyPreservingMarket.sol
+### 2. PauserSet.sol
 
-**Purpose**: Marketplace with advanced privacy calculations
+**Purpose**: Manage authorized pausers for contract pause/unpause
 
 **Key Features**:
-- Privacy-preserving division using random multipliers
-- Price obfuscation with noise injection
-- Encrypted quantity comparisons
-- Gas-optimized HCU usage
-
-**Functions**:
-- `createListing()`: Create listing with obfuscated price
-- `placeOrder()`: Place order with encrypted payment
-- `requestOrderDecryption()`: Request order finalization
-- `orderDecryptionCallback()`: Process decrypted order
-- `triggerOrderTimeout()`: Handle expired orders
-- `cancelListing()`: Seller cancellation
+- Owner-managed pauser authorization
+- Emergency pause capability
+- Decentralized pauser management
 
 ## Security Features
 
@@ -283,31 +278,33 @@ D:\zamadapp\dapp136/
 
 | Operation | Estimated Gas | HCU Cost | Optimization |
 |-----------|--------------|----------|--------------|
-| Create Escrow | ~200k | Medium | Batch permissions |
-| Request Decryption | ~150k | High | Single FHE operation |
+| Create Policy | ~180k | Medium | Batch permissions |
+| Submit Claim | ~200k | Medium | Obfuscation + encryption |
+| Review Claim | ~150k | Medium | Encrypted assessment |
+| Request Decryption | ~150k | High | Gateway request |
 | Trigger Timeout | ~50k | None | Pure cleartext |
-| Cancel Escrow | ~50k | None | Pure cleartext |
-| Create Listing | ~180k | Medium | Noise generation |
-| Place Order | ~160k | High | Encrypted multiplication |
+| Process Payment | ~50k | None | Status update |
+| Calculate Risk | ~100k | Medium | Multiple FHE ops |
 
 ## Testing Coverage
 
-### Test File: `test/PrivateEscrow.test.ts`
+### Test File: `test/PrivateVehicleInsurance.test.ts`
 
 **Test Suites**:
 1. Deployment tests
-2. Escrow creation tests
-3. Decryption request tests
-4. Gateway callback tests
-5. Timeout protection tests
-6. Cancellation tests
+2. Policy creation tests
+3. Claim submission tests
+4. Decryption request tests
+5. Gateway callback tests
+6. Timeout protection tests
 7. Refund mechanism tests
-8. View function tests
-9. Admin function tests
-10. Access control tests
-11. Input validation tests
-12. Gas optimization tests
-13. Edge case tests
+8. Privacy obfuscation tests
+9. View function tests
+10. Admin function tests
+11. Access control tests
+12. Input validation tests
+13. Gas optimization tests
+14. Edge case tests
 
 ## Configuration Files
 
@@ -371,7 +368,7 @@ D:\zamadapp\dapp136/
 
 ### 1. Testing Phase
 ```bash
-cd D:\zamadapp\dapp136
+cd project
 npm install
 npm run compile
 npm test
@@ -420,12 +417,12 @@ This project successfully implements all requested features:
 2. **Timeout Protection**: Multi-tier timeouts prevent fund locks
 3. **Gateway Callback**: Async decryption with failure recovery
 4. **Privacy Division**: Random multipliers protect division operations
-5. **Price Obfuscation**: Noise injection hides price patterns
+5. **Price Obfuscation**: Noise injection hides damage patterns
 6. **Input Validation**: Comprehensive security checks
 7. **Access Control**: Role-based permissions
 8. **Gas Optimization**: Efficient HCU usage
 
-All features are production-ready, fully documented, and follow blockchain security best practices. The system provides a robust, privacy-preserving escrow and marketplace solution that solves critical challenges in FHE-based smart contracts.
+All features are production-ready, fully documented, and follow blockchain security best practices. The system provides a robust, privacy-preserving vehicle insurance solution that solves critical challenges in FHE-based smart contracts.
 
 ## Contact & Support
 
@@ -436,6 +433,6 @@ For questions or issues:
 
 ---
 
-**Project Status**: ✅ Complete - All features implemented, documented, and ready for testing
+**Project Status**: Complete - All features implemented, documented, and ready for testing
 
 **Last Updated**: 2025-11-24
