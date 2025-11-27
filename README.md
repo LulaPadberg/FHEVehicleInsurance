@@ -7,7 +7,7 @@ A revolutionary decentralized insurance platform built with Fully Homomorphic En
 This platform represents a breakthrough in insurance technology, combining blockchain transparency with cryptographic privacy. Using Zama's FHE technology, all sensitive information including personal data, claim amounts, and financial details remain encrypted throughout the entire insurance lifecycle while still enabling computational operations.
 
 Live Demo : https://fhe-vehicle-insurance.vercel.app/   
-
+Video :https://streamable.com/qksnaj
 
 ## 🔐 Core Features
 
